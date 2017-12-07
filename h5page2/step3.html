@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="max-age" />
+		<title>我为青春补补水</title>
+		<script src="js/jquery-2.2.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/step3.css"/>
+	</head>
+	<body>
+		<div class="container">
+			<div id="load">
+				<div class="word"></div>
+				<p id="schedule">0%</p>
+			</div>
+			<div class="con">
+				<img class="logo" src="img/logo.png"/>
+				<div class="wrap">
+					<img class="bottom-text" src="img/step3/bottom-text.png"/>
+					<!--<img class="body" src="img/step3/p1/body.png"/>
+					<img class="head" src="img/step3/p1/head.png"/>-->
+					<img class="icon" src="img/step3/icon1.png"/>
+					<img class="text" src="" />
+					<img class="gif" src="img/step3/product.gif"/>
+				</div>
+				<div class="time">20"00</div>
+				<img class="hand" src="img/step3/hand.png" />
+				<div class="click"></div>
+			</div>
+			<div class="end">
+				<div class="top-text">
+					XXX的青春补水的量是
+				</div>
+				<div class="score">56</div>
+				<img class="endimg" src="img/step3/end1.png" />
+				<img class="endbtn" src="img/step3/end-btn.png"/>
+			</div>
+			<div class="luck">
+				<img class="luck-img" src="img/step3/luck-img.png"/>
+				<form action="javascript:void(0);" method="post">
+					<div class="text-input">
+						<input type="text" name="phone" id="phone" />
+					</div>
+					<input id="submit" type="submit" value="" />
+				</form>
+				<img class="rule-btn" src="img/step3/luck-rule-btn.png"/>
+			</div>
+			<div class="luck-rule">
+				<img src="img/step3/luck-rule.png"/>
+				<img class="close" src="img/index/rule_close.jpg"/>
+			</div>
+			<div class="share">
+				<img src="img/step3/share-img2.png"/>
+			</div>
+			<img id="music" src="img/music-play.png" data-src = "img/music-stop.png" />
+			<audio src="medio/485.mp3" autoplay="autoplay" loop="loop"></audio>
+		</div>
+		<script src="js/load.js"></script>
+		<script src="js/step3.js"></script>
+		<script type="text/javascript">
+			//预加载图片
+			var schedule = document.getElementById("schedule");
+			var wordBg = document.getElementsByClassName("word")[0];
+			var a = sessionStorage.getItem("index");
+//			var imgsrc = ["img/step3/p"+ a +"/head.png","img/step3/p"+ a +"/body.png","img/logo.png","img/step3/icon1.png","img/step3/icon2.png","img/step3/icon3.png","img/step3/icon4.png","img/step3/bottom-text.png","img/step3/product.gif","img/step3/hand.png","img/step3/time-bg.png"];
+			var imgsrc = ["img/step3/p"+ a +"/head.png","img/step3/p"+ a +"/body.png","img/music-play.png","img/music-stop.png","img/logo.png","img/step3/icon1.png","img/step3/icon2.png","img/step3/icon3.png","img/step3/icon4.png","img/step3/bottom-text.png","img/step3/product.gif","img/step3/hand.png","img/step3/end1.png","img/step3/end-btn.png","img/step3/luck-img.png","img/step3/luck-rule-btn.png","img/step3/luck-rule.png","img/index/rule_close.jpg","img/step3/share-img2.png","img/step3/icon2.png","img/step3/text1.png","img/step3/icon3.png","img/step3/text2.png","img/step3/icon4.png","img/step3/text3.png","img/step3/end1.png","img/step3/end2.png","img/step3/end3.png","img/step3/time-bg.png","img/step3/end-top-text-bg.png","img/step3/luck-input-bg.png","img/step3/luck-submit.png","img/bg.png","img/load-img-bg.png","img/load-img.png"];
+			var score = 0;
+			var nameArr = ["宋妍霏","吕绍聪","佟梦实","邵明明","袁雨萱","邢菲","左溢","赵顺然","史文翔","葛淯吟","程星源","高旻睿","万国鹏","张予曦"];
+//			console.log(imgsrc);
+			preload(imgsrc,wordBg,function(){
+				var load = document.getElementById("load");
+				load.remove();
+			})
+			//加载图片路径
+			function creatImg(){
+				var headimg = '<img class="head" src="img/step3/p'+ a +'/head.png"/>';
+				var bodyimg = '<img class="body" src="img/step3/p'+ a +'/body.png"/>';
+				$(".wrap").prepend(headimg);
+				$(".wrap").prepend(bodyimg);
+			}
+			$(window).ready(function(){
+				creatImg();
+			})
+			
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

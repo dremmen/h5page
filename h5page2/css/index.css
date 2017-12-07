@@ -1,0 +1,140 @@
+@font-face {
+	font-family: 'myfont';
+	src: url('../font/myfont.eot');
+	src: local('myfont'),
+		url('../font/myfont.woff') format('woff'),
+		url('../font/myfont.ttf') format('truetype'),
+		url('../font/myfont.svg#myfont') format('svg');
+}
+html,body{
+	width: 100%;
+	height: 100%;
+}
+.container{
+	width: 100%;
+	height: 100%;
+	background: url(../img/bg.png);
+	background-size: cover;
+}
+#load{
+	/*display: none;*/
+	width: 100%;
+	height: 100%;
+	background-color: #b4dff4;
+	position: absolute;
+	z-index: 100;
+}
+#load .word{
+	width: 60%;
+	height: 12%;
+	margin: 55% auto 0;
+	background-image: url(../img/load-img-bg.png);
+	background-size: 100%;
+	/*background-position-x: 0;*/
+	background-position-y: 0;
+	-webkit-mask: url(../img/load-img.png);
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: 100%;
+	transition: all 1s linear; 
+}
+#load p {
+	width: 100%;
+	margin-top: 2%;
+	font-family: myfont;
+	font-size: 2em;
+	text-align: center;
+	color: #52b9ef;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.main>img,.title img{
+	position: absolute;
+	margin: auto;
+	left: 0;
+	right: 0;
+}
+.logo{
+	width: 100%;
+	display: none;
+}
+.title img{
+	display: none;
+	width: 95%;
+}
+.btn1{
+	position: absolute;
+	width: 30%;
+	left: 0;
+	right: 0;
+	margin: auto;
+	bottom: 10%;
+}
+.btn2{
+	width: 24%;
+	bottom: 4%;
+}
+.person img{
+	width: 95%;
+	position: absolute;
+	top: -180%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+}
+#rule{
+	display: none;
+	width: 100%;
+	height: 100%;
+}
+#rule img:nth-child(1){
+	width: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 5%;
+	bottom: 0;
+	margin: auto;
+}
+#rule img:nth-child(2){
+	width: 10%;
+	position: absolute;
+	right: 16%;
+	top: 13%;
+	z-index: 105;
+}
+/* 音乐 */
+@keyframes rotate{
+	0%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
+#music{
+	position: absolute;
+	width: 8%;
+	bottom: 5%;
+	right: 10%;
+	z-index: 10;
+	animation: rotate 5s linear infinite;
+}
+
+@media screen and (min-height: 560px) and (max-height: 740px) {
+	#rule img:nth-child(2){top: 18%;}
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<script src="js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="css/test.css"/>
+	<script type="text/javascript">
+		// 控制分辨率大小不同时候，可以保证看到一样的内容
+		var phoneWidth =  parseInt(window.screen.width);
+		var phoneScale = phoneWidth/640;
+		var ua = navigator.userAgent;
+		if (/Android (\d+\.\d+)/.test(ua)){
+			var version = parseFloat(RegExp.$1);
+			if(version>2.3){
+				document.write('<meta name="viewport" content="width=640, minimum-scale = '+phoneScale+', maximum-scale = '+phoneScale+', target-densitydpi=device-dpi">');
+			}else{
+				document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+			}
+		} else {
+			document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+		}
+	</script>
+</head>
+<body>
+	<div class="main">
+		<div class="circular">
+			<img src="img/circular1.png" alt="" class="cir1" />
+			<img src="img/circular2.png" alt="" class="cir2" />
+			<img src="img/circular3.png" alt="" class="cir3" />
+			<img src="img/circular4.png" alt="" class="cir4" />
+			<img src="img/circular5.png" alt="" class="cir5" />
+			<img src="img/circular6.png" alt="" class="cir6" />
+			<img src="img/cir_text.png" alt="" class="cir_text" />
+			<img src="img/cir_logo.png" alt="" class="cir_logo" />
+		</div>
+		<div class="page loading">
+			<div class="wrap">
+				<div class="step"><span class="step_num">0</span>%</div>
+			</div>
+		</div>
+		<img src="img/p2_bg1.png" alt="" class="p2_bg1" />
+		<img src="img/p2_bg2.png" alt="" class="p2_bg2" />
+		<div class="page page_1">
+			<img src="img/bg1.png" class="p1_bg"/>
+			<div class="wrap">
+				<img src="img/p1_text0.png" alt="" class="p1_text1" />
+				<img src="img/p1_text1.png" alt="" class="p1_text2" />
+				<img src="img/p1_text2.png" alt="" class="p1_text3" />
+			</div>
+		</div>
+
+		<div class="page page_2">
+			<div class="wrap">
+				<div class="p2_title">
+					<img src="img/p2_title1.png" alt="" />
+					<img src="img/p2_title2.png" alt="" />
+					<img src="img/p2_title3.png" alt="" />
+				</div>
+				<div class="p2_text">
+					<div class="con_1">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="con_2">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="con_3">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="con_4">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="con_5">
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="p2_box">
+					<img src="img/p2_border1.png"/>
+					<img src="img/p2_border2.png"/>
+					<img src="img/p2_border3.png"/>
+					<img src="img/p2_border_text1.png"/>
+					<img src="img/p2_border_text2.png"/>
+				</div>
+			</div>
+		</div>
+
+		<div class="page page_3">
+			<div class="wrap">
+				<img src="img/p3_text1.png" alt="" class="p3_text1 center" />
+				<img src="img/p3_text2.png" alt="" class="p3_text2 center" />
+				<div class="p3_circular center">
+					<img src="img/p3_circular_text1.png" alt="" />
+					<img src="img/p3_circular_text2.png" alt="" />
+					<img src="img/p3_circular_border1.png" alt="" />
+					<img src="img/p3_circular_border2.png" alt="" />
+					<img src="img/p3_circular_border3.png" alt="" />
+					<img src="img/p3_circular_border4.png" alt="" />
+				</div>
+				<div class="p3_box">
+					<img src="img/p3_box1.png" alt="" />
+					<img src="img/p3_box2.png" alt="" />
+					<img src="img/p3_box3.png" alt="" />
+				</div>
+			</div>
+			<div class="p3_line"></div>
+		</div>
+				
+		<div class="page page_4">
+			<div class="p4_glass1"></div>
+			<div class="p4_glass2 center"></div>
+			<div class="wrap">
+				<img src="img/p4_title1.png" alt="" class="p4_title1" />
+				<img src="img/p4_title2.png" alt="" class="p4_title2" />
+				<div class="p4_text1 center">
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<img src="img/p4_text2.png" alt="" class="p4_text2 center" />
+			</div>
+		</div>
+
+		<div class="page page_5">
+			<div class="wrap">
+				<div class="circular p5_cir">
+					<img src="img/circular1.png" alt="" class="cir1" />
+					<img src="img/circular2.png" alt="" class="cir2" />
+					<img src="img/circular3.png" alt="" class="cir3" />
+					<img src="img/circular4.png" alt="" class="cir4" />
+					<img src="img/circular5.png" alt="" class="cir5" />
+					<img src="img/circular6.png" alt="" class="cir6" />
+				</div>
+				<img src="img/p5_text1.png" alt="" class="p5_text1" />
+				<img src="img/p5_text2.png" alt="" class="p5_text2 center" />
+				<img src="img/p1_text1.png" alt="" class="p5_text3 center" />
+				<div class="p5_text4"></div>
+				<img src="img/p5_text4.png" alt="" class="p5_text5 center" />
+			</div>
+		</div>
+
+		<div class="page page_6">
+			<div class="wrap">
+				<div class="circular p6_cir">
+					<img src="img/circular1.png" alt="" class="cir1" />
+					<img src="img/circular2.png" alt="" class="cir2" />
+					<img src="img/circular3.png" alt="" class="cir3" />
+					<img src="img/circular4.png" alt="" class="cir4" />
+					<img src="img/circular5.png" alt="" class="cir5" />
+					<img src="img/circular6.png" alt="" class="cir6" />
+				</div>
+				<img src="img/p5_text1.png" alt="" class="p5_text1" />
+				<img src="img/p1_text1.png" alt="" class="p5_text3 center" />
+				<img src="img/p6_title.png" alt="" class="p6_text3 center" />
+				<img src="img/p6_img1.png" alt="" class="p6_img1 center" />
+				<img src="img/p6_img2.png" alt="" class="p6_img2 center" />
+				<img src="img/p6_img3.png" alt="" class="p6_img3 center" />
+			</div>
+		</div>
+
+		<img src="img/logo.png" alt="" class="logo">
+	</div>
+<script src="./js/test.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="max-age" />
+		<title>我为青春补补水</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" href="css/index.css" />
+		<script src="js/jquery-2.2.2.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div id="load">
+				<div class="word"></div>
+				<p id="schedule">0%</p>
+			</div>
+			<div class="main">
+				<img class="logo" src="img/index/logo.png" />
+				<div class="title">
+					<img src="img/index/theme-bg.png" />
+					<img class="bottle" src="img/index/bottle.png"/>
+					<img src="img/index/theme-text.png" />
+				</div>
+				<div class="person">
+					<img src="img/index/person5.png" />
+					<img src="img/index/person4.png" />
+					<img src="img/index/person3.png" />
+					<img src="img/index/person2.png" />
+					<img src="img/index/person1.png" />
+				</div>
+				<a href="step2.html"><img class="btn1" src="img/btn.png" /></a>
+				<img class="btn2" src="img/word-btn.png" />
+			</div>
+			<div id="rule">
+				<img src="img/index/rule.png"/>
+				<img src="img/index/rule_close.jpg"/>
+			</div>
+			<img id="music" src="img/music-play.png" data-src = "img/music-stop.png" />
+			<audio src="medio/485.mp3" autoplay="autoplay" loop="loop"></audio>
+		</div>
+		<script src="js/load.js"></script>
+		<script type="text/javascript">
+			//预加载图片
+			var schedule = document.getElementById("schedule");
+			var wordBg = document.getElementsByClassName("word")[0];
+			var loadimgsrc = ["img/load-img-bg.png","img/load-img.png"];
+//			var loadfonturl = ["font/myfont.eot","font/myfont.woff","font/myfont.ttf","font/myfont.svg"];
+			var imgsrc = ["img/music-play.png","img/music-stop.png","img/index/logo.png","img/index/theme-bg.png","img/index/bottle.png","img/index/theme-text.png","img/index/person1.png","img/index/person2.png","img/index/person3.png","img/index/person4.png","img/index/person5.png","img/btn.png","img/word-btn.png","img/index/rule.png","img/index/rule_close.jpg","img/bg.png"];
+			loadimg(loadimgsrc,function(){
+				preload(imgsrc,wordBg,function(){
+					var load = document.getElementById("load");
+					load.remove();
+					indexAnimate();
+				})
+			})
+			function indexAnimate(){
+				$(".logo").eq(0).fadeIn(500);
+				$(".btn1").eq(0).fadeIn(500);
+				$(".btn2").eq(0).fadeIn(500);
+				$(".person img").eq(4).animate({
+					top:"0",
+				},1000,function(){
+					$(".person img").eq(3).animate({
+						top:"0",
+					},1000)
+					$(".person img").eq(2).animate({
+						top:"0",
+					},1000,function(){
+						$(".person img").eq(1).animate({
+							top:"0",
+						},1000)
+						$(".person img").eq(0).animate({
+							top:"0",
+						},1000,function(){
+							$(".title img").eq(0).fadeIn(500,function(){
+								$(".title img").eq(1).fadeIn(500,function(){
+									$(".title img").eq(2).animate({
+										width:"95%",
+									},1000)
+								})
+							});
+						})
+					})
+				})
+				
+			}
+			$(document).mousedown(function(){
+				return false;
+			})
+			$(".btn2").click(function(){
+				$(".main").css("display","none"),
+				$("#rule").fadeIn(500)
+			})
+			$("#rule img").eq(1).click(function(){
+				$(".main").css("display","block"),
+				$("#rule").css("display","none")
+			})
+		</script>
+		<script type="text/javascript">
+//			var imgsrc = ["img/logo.png","img/title-bg.png","img/title-word.png","img/title-word.png","img/person1.png","img/person2.png","img/person3.png","img/person4.png","img/person5.png","img/btn.png","img/word-btn.png"];
+//			$(window).load(function(){
+//				var count = 0;
+//				for (var i=0;i<imgsrc.length;i++) {
+////					$("<img />").attr("src", imgsrc[i]);
+//					var img = new Image();
+//				    img.onload = function(){
+//						count++;
+//						num = Math.floor(count/imgarr.length*100);
+//	//					console.log(num);
+//						$("#schedule").text(num + "%");
+//						$(".word").dq(0).css("background-position-y",-num + 10 + "px")
+//						if(count == imgarr.length){
+//							callback && callback();
+//						}
+//				    }
+//				}
+//			})
+		</script>
+	</body>
+</html>
