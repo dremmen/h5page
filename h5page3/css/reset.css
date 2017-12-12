@@ -1,0 +1,15 @@
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, p, ul, li, button, input{
+    margin: 0;
+    padding: 0;
+}
+body{
+	-webkit-user-select: none;
+}
+body, button, input, {
+    font: 12px/1 Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+}
+img { border: none; }
+button, input {
+    font-size: 100%;
+}
