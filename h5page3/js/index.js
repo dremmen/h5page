@@ -36,21 +36,87 @@ $(function(){
 					"image/page15/page15-img3.png","image/page15/page15-img4.png"];
 
 	var logo = $('.logo'),
-		page1 = $('.page_2');
-
+		page = $('.page'),
+		page1_img2 = $('.page1-img2');
 
 	imgLoad(imgArr);
 	function imgLoad(imgArrs){
+		var step = 0;
+		var step_num = $('.step_num');
 		var imgL = imgArrs.length;
 		for(var i=0;i<imgL;i++){
 			$('<img />').load(function(){
+				step++;
+				var long = Math.round(step/imgL*100);
+				$('.loading-img').css('width',long*1.7 + 'px');
+				step_num.text(long);
+				if(step == imgL){
+					// $('.loading').hide();
 					// logo.addClass('show');
-					page1.addClass('show');
+					// page1_img2.addClass('show');
+					// page.eq(1).addClass('show');
+				}
 			}).attr('src',imgArrs[i]);
 		}
 	}
 
+	var main = $('.main').get(0),
+		start_x = 0,
+		start_y = 0,
+		end_x = 0,
+		end_y = 0,
+		prev_page = 0,
+		next_page = 0;
+		touch = false;
 
+	main.addEventListener('touchstart',function(e){		
+		start_x = e.touches[0].clientX;
+		start_y = e.touches[0].clientY;
+		end_x = e.touches[0].clientX;
+		end_y = e.touches[0].clientY;
+		touch = false;
+		// console.log(start_x,start_y,end_x,end_y);
+	},false)
 
+	main.addEventListener('touchmove',function(e){
+		end_x = e.touches[0].clientX;
+		end_y = e.touches[0].clientY;
+		e.preventDefault();
+	},false)
+
+	main.addEventListener('touchend',function(e){
+		touch = true;
+		var _y = end_y - start_y;
+		if(_y<=-50){
+			// 向上滑动
+			next_page++;
+			page.eq(next_page - 1).removeClass('show');
+			if(next_page > page.length-1){
+				next_page = 0;
+			}
+			pageMove(next_page);
+		}else if(_y>=50){
+			next_page --;
+			page.eq(next_page + 1).removeClass('show');
+			if(0 > next_page){
+				next_page = page.length-1
+			}
+			pageMove(next_page);
+		}
+		console.log(_y);
+	})
+
+	function pageMove(index){
+		if(!touch){
+			return;
+		}	
+		page.eq(index).addClass('show');
+		page1_img2.removeClass('show');
+		logo.removeClass('show');
+		if(index == 0){
+			page1_img2.addClass('show');
+			logo.addClass('show');			
+		}
+	}
 
 })
