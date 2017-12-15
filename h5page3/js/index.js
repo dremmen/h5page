@@ -66,7 +66,7 @@ $(function(){
 		end_x = 0,
 		end_y = 0,
 		prev_page = 0,
-		next_page = 0;
+		next_page = 1;
 		touch = false;
 
 	main.addEventListener('touchstart',function(e){		
@@ -92,7 +92,7 @@ $(function(){
 			next_page++;
 			page.eq(next_page - 1).removeClass('show');
 			if(next_page > page.length-1){
-				next_page = 0;
+				next_page = 1;
 			}
 			pageMove(next_page);
 		}else if(_y>=50){
