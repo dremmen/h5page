@@ -51,10 +51,10 @@ $(function(){
 				$('.loading-img').css('width',long*1.7 + 'px');
 				step_num.text(long);
 				if(step == imgL){
-					// $('.loading').hide();
-					// logo.addClass('show');
-					// page1_img2.addClass('show');
-					// page.eq(1).addClass('show');
+					$('.loading').hide();
+					logo.addClass('show');
+					page1_img2.addClass('show');
+					page.eq(1).addClass('show');
 				}
 			}).attr('src',imgArrs[i]);
 		}
@@ -66,7 +66,7 @@ $(function(){
 		end_x = 0,
 		end_y = 0,
 		prev_page = 0,
-		next_page = 0;
+		next_page = 1;
 		touch = false;
 
 	main.addEventListener('touchstart',function(e){		
@@ -92,7 +92,7 @@ $(function(){
 			next_page++;
 			page.eq(next_page - 1).removeClass('show');
 			if(next_page > page.length-1){
-				next_page = 0;
+				next_page = 1;
 			}
 			pageMove(next_page);
 		}else if(_y>=50){
@@ -113,7 +113,7 @@ $(function(){
 		page.eq(index).addClass('show');
 		page1_img2.removeClass('show');
 		logo.removeClass('show');
-		if(index == 0){
+		if(index == 1 || index == 12){
 			page1_img2.addClass('show');
 			logo.addClass('show');			
 		}
