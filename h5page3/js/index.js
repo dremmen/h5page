@@ -51,10 +51,10 @@ $(function(){
 				$('.loading-img').css('width',long*1.7 + 'px');
 				step_num.text(long);
 				if(step == imgL){
-					// $('.loading').hide();
-					// logo.addClass('show');
-					// page1_img2.addClass('show');
-					// page.eq(1).addClass('show');
+					$('.loading').hide();
+					logo.addClass('show');
+					page1_img2.addClass('show');
+					page.eq(1).addClass('show');
 				}
 			}).attr('src',imgArrs[i]);
 		}
