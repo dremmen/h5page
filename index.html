@@ -85,6 +85,11 @@
 
 	function _init() {		
 		one_food_ul.innerHTML = '';
+		menu.forEach(function (vals, index) {
+			if(vals.food.length<=0){
+				menu.remove(index);
+			}
+		})
 		console.log(menu);
 		one_food();
 	}
@@ -282,10 +287,6 @@
 			menu.forEach(function(vals, index){
 				if(_thisTypeid == vals.type_id){
 					vals.food.push(obj)
-				}else if(type_id == vals.type_id){
-					if(vals.food.length<=0){
-						menu.remove(index);
-					}
 				}
 			})
 			_init();	
