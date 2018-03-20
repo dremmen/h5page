@@ -1,17 +1,334 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>h5Page</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <style>
-		html,body{max-width: 640px;margin: 0 auto;}
-		a{width: 100%;line-height: 48px;color: #333;padding-left: 10px;text-decoration: none;display: block;border-bottom: 1px solid #dedede;}
-    </style>
-</head>
-<body>
-	<a href="./h5page1/index.html" target="_Blank">h5广告图</a>
-	<a href="./h5page2/index.html" target="_Blank">水密码</a>
-	<a href="./h5page3/index.html" target="_Blank">第五园</a>
-</body>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style type="text/css">
+			html,body,ul,li,h3{margin: 0;padding: 0;list-style: none;}
+			.one-food{margin: 0 auto;width: 200px;cursor: pointer;margin-top: 100px;}
+			.one-food button{cursor: pointer;}
+			.one-food-ul h3{width: 200px;background-color: rgba(0,0,0,.5);color: #fff;padding: 5px 20px;font-size: 24px;}
+			.one-food-ul h3 span{float: right;margin-right: 20px;font-size: 16px;text-decoration: underline;line-height: 30px;}
+			.one-food-ul{margin-top: 20px;}
+			.one-food-ul li{margin-bottom: 5px;height: auto;}
+			.one-food-ul li.active .two-food-ul{opacity: 0;height: 0!important;transition: all .5s;}
+			.one-food-ul .two-food-ul li{position: relative;background: #f0f3f9;font-size: 12px;box-shadow: 2px 2px 4px #666666;left: 0;top: 0;}
+			.one-food-ul .two-food-ul li span{text-align: center;color: #333;display: block;font-size: 16px;margin-top: 3px;padding: 5px 0;cursor: move;}
+			.one-food-ul .two-food-ul li span em{color: #000;font-style: normal;padding-left: 10px;}
+			.dialog{width: 360px;position: absolute;left: 20%;margin-left: -180px;background-color: rgba(0,0,0,.8);padding: 50px 0;top: 100px;display: none;}
+			.dialog div{margin-bottom: 20px;padding-left: 50px;box-sizing: border-box;}
+			.dialog div label{color: #fff;}
+			.dialog div input{outline: none;border: none;line-height: 24px;background-color: transparent;border-bottom: 1px solid #fff;color: #fff;padding-left: 10px;}
+			.dialog div input::-webkit-input-placeholder{color: #fff;} 
+			#btn button,#btn2 button{cursor: pointer;}
+		</style>
+	</head>
+	<body>
+	<!-- 亲，这个页面的测试、电脑、网络、信息都没有问题，测试题目自己想办法找，不要问我为什么？任性~ -->
+		<h1>只能拖动二级菜品到不同的一级菜单里面</h1>
+		<div class="one-food">
+			<button onclick="add()">添加菜单</button>
+			<ul class="one-food-ul" id="one-food-ul">
+			</ul>
+		</div>
+		<div class="dialog" id="dialog">
+			<div>
+				<label>大类菜：</label>
+				<input type="text" class="name" placeholder="请输入大类菜名">
+			</div>
+			<div class="xl">
+				<label>小类菜：</label>
+				<input type="text" class="food_name" placeholder="请输入小类菜名">	<br>			
+				<label>小价格：</label>
+				<input type="text" class="price_name" placeholder="请输入小类菜价格">
+			</div>
+			<div id="btn">
+				<button onclick="cloneFoodnameFN('btn','dialog')">多加一个小类</button>
+				<button onclick="addCon(this)">添加</button>
+			</div>
+		</div>
+		<div class="dialog" id="dialog2">
+			<div>
+				<label>大类菜：</label>
+				<input type="text" class="name" placeholder="请输入大类菜名">
+			</div>
+			<div id="btn2">
+				<button onclick="updateCon(this)" class="btn2" data-id="0">修改</button>
+			</div>
+		</div>
+	</body>
+   
+	<script type="text/javascript">
+	    var menu = [
+	            {"type_id":1,"name":"大菜","food":[
+	                                            {"food_id":1,"name":"鱼香肉丝","price":"10"},
+	                                            {"food_id":2,"name":"红烧肉","price":"11"},
+	                                            {"food_id":3,"name":"香辣粉","price":"12"}
+	                                            ]},
+	            {"type_id":2,"name":"中菜","food":[
+	                                            {"food_id":4,"name":"小炒肉","price":"13"},
+	                                            {"food_id":5,"name":"云吞","price":"14"}
+	                                            ]},
+	            {"type_id":3,"name":"小菜","food":[
+	                                            {"food_id":6,"name":"雪糕","price":"15"},
+	                                            {"food_id":7,"name":"黄瓜","price":"16"}
+	                                            ]}      
+	        ];
+	/*
+	    step 1: 根据menu的数据，动态生成一个二级联运菜单
+	    step 2: 实现动态增加、修改、删除菜单dom节点，同时保持dom结构与json保持同步
+	    step 3: 实现通过拖拽修改菜单结构（可使用jQuery插件），同时保持dom结构与json保持同步
+	    step 4: 将结果发送到247828058@qq.com，邮件标题写上姓名，谢谢！
+	*/
+
+	window.onload = _init;
+
+	var one_food_ul = document.getElementById('one-food-ul');
+
+	function _init() {		
+		one_food_ul.innerHTML = '';
+		console.log(menu);
+		one_food();
+	}
+
+	function one_food() {
+		var one_html = '';
+		menu.forEach(function(vals, index){
+			one_html += `
+				<li>
+					<h3>
+						${vals.name}<span type_id="${vals.type_id}" onclick="del('${vals.type_id}')">删除</span><span type_id="${vals.type_id} "onclick="update('${vals.type_id}', '${vals.name}')">修改</span>
+					</h3>
+					<ul class="two-food-ul" type_id="${vals.type_id}" ondragover="ondragoverFn(this, event)" ondragenter = "ondragenterFn(this, event)" ondrop="ondropFn(this, event)">`+
+						two_food(vals)
+					+`
+
+					</ul>
+				</li>
+			`
+		});
+		one_food_ul.innerHTML = one_html
+	}
+
+	function two_food(vals){
+		var two_html = '';
+		vals.food.forEach(function(val, i){
+			two_html += `
+				<li food_id="${val.food_id}" draggable="true" onselectstart="onselectstartFn()" ondragend="ondragendFn(this, event)" ondragstart="ondragstartFn(this, event)">
+					<span>${val.name}<em>￥${val.price}</em></span>
+				</li>`
+		})
+		return two_html;
+	}
+
+	function cloneFoodnameFN(btn, dialog){
+		var cloneNodes = document.getElementsByClassName('xl')[0].cloneNode(true);
+		var btn = document.getElementById(btn);
+		var dialog = document.getElementById(dialog);
+	    dialog.insertBefore(cloneNodes, btn);
+	}
+
+	function add(){
+		var dialog = document.getElementById('dialog');
+		dialog.style.display = "block";
+	}
+
+	function addCon(_this) {
+		var dialog = document.getElementById('dialog');
+		var name = dialog.getElementsByClassName('name');
+		var food_name = dialog.getElementsByClassName('food_name');
+		var price_name = dialog.getElementsByClassName('price_name');
+		var foodName = [];
+		var food = {}
+		if(!name[0].value){
+			alert("菜单名不能为空");
+			return;
+		}
+		for(var i=0;i<food_name.length;i++){
+			if(!food_name[i].value || !price_name[i].value){
+				alert("菜名和价格不能为空");
+				return;
+			}
+			food = {				
+				"food_id": i,
+				"name": food_name[i].value,
+				"price": price_name[i].value
+			}
+			foodName.push(food);
+		}
+		var menuL = menu.length;		
+		var obj = {
+			"type_id": menuL+1,
+			"name": name[0].value,
+			"food":foodName
+		}
+		menu.push(obj)
+		_init();
+		dialog.style.display = "none";
+	}
+
+	function del(id){
+		var _id;
+		for(var i=0;i<menu.length;i++){
+			if(menu[i].type_id == id){
+				_id = i;
+				break;
+			}
+		}
+		menu.remove(_id);
+		_init();		
+	}
+
+	function update(id, type_name){
+		var dialog2 = document.getElementById('dialog2');
+		var data = dialog2.getElementsByClassName('btn2')[0];
+		dialog2.style.display = "block";
+		data.setAttribute('data-id', id);
+		var name = dialog2.getElementsByClassName('name');
+		name[0].value = type_name;
+		menu.forEach(function(vals, index){
+			if(vals.type_id == id){
+				vals.food.forEach(function (val, i) {
+					cloneFoodnameFN('btn2','dialog2');
+					dialog2.getElementsByClassName('food_name')[i].value = val.name;
+					dialog2.getElementsByClassName('price_name')[i].value = val.price;
+				})
+			}			
+		})
+	}
+
+	function updateCon(_this){
+		var dialog2 = document.getElementById('dialog2');
+		var name = dialog2.getElementsByClassName('name');
+		var food_name = dialog2.getElementsByClassName('food_name');
+		var price_name = dialog2.getElementsByClassName('price_name');
+		var id = _this.getAttribute('data-id');
+		if(!name[0].value){
+			alert("菜单名不能为空");
+			return;
+		}
+		var foodName = [];
+		var food = {}
+		for(var i=0;i<food_name.length;i++){
+			if(!food_name[i].value || !price_name[i].value){
+				alert("菜名和价格不能为空");
+				return;
+			}
+			food = {				
+				"food_id": i,
+				"name": food_name[i].value,
+				"price": price_name[i].value
+			}
+			foodName.push(food);
+		}
+
+		var obj1 = {
+			"type_id": id,
+			"name": name[0].value,
+			"food": foodName
+		}
+		for(var i=0;i<menu.length;i++){
+				console.log(id);
+			if(menu[i].type_id == id){
+				console.log(1);
+				menu[i] = obj1
+			}
+		}
+		_init()
+		dialog2.style.display = "none";
+	}
+
+	Array.prototype.remove = function(index) {　　
+		if(isNaN(index) || index > this.length) { 
+			return false; 
+		}　　 
+		for(var i = 0, n = 0; i < this.length; i++){　　　　 
+			if(this[i] != this[index]){　　　　　　 
+				this[n++] = this[i]　　　　 
+			}　　 
+		}　　 
+		this.length -= 1　 
+	}
+
+	var eleDrag = null,
+		type_id,
+		food_id,
+		price,
+		name;
+
+	function ondragoverFn(_this, event){
+		var ev = window.event || event;
+		_this.style.border = "1px solid #f00";
+		ev.preventDefault();
+		return true;
+	}
+
+	function ondragenterFn(_this, event) {
+		var ev = window.event || event;
+		_this.style.border = "none";
+		return true;
+	};
+
+	function ondropFn(_this, event) {
+		var ev = window.event || event;
+		if (eleDrag) {
+			eleDrag.parentNode.removeChild(eleDrag);
+			_this.appendChild(eleDrag)
+			var obj = {
+				food_id: food_id,
+				name: name,
+				price: price
+			}
+			_this.style.border = "1px solid #000";
+			var _thisTypeid = _this.getAttribute('type_id');
+			menu.forEach(function(vals, index){
+				if(_thisTypeid == vals.type_id){
+					vals.food.push(obj)
+				}else if(type_id == vals.type_id){
+					if(vals.food.length<=0){
+						menu.remove(index);
+					}
+				}
+			})
+			_init();	
+		}
+		return false;
+	};
+
+	function onselectstartFn() {
+		return false;
+	};
+
+	function ondragstartFn(_this, event) {
+		var ev = window.event || event;
+		var _parentTypeid = _this.parentNode.getAttribute('type_id');
+		var _thisFoodid = _this.getAttribute('food_id');
+		type_id = Number(_parentTypeid);
+		food_id = Number(_thisFoodid);
+		var _index;
+		menu.forEach(function(vals, index){
+			if(_parentTypeid == vals.type_id){
+				vals.food.forEach(function(val, i){
+					if(_thisFoodid == val.food_id){
+						name = vals.food[i].name;
+						price = vals.food[i].price;						
+						vals.food.remove(i);
+					}
+				})
+			}
+		})
+		// console.log(_parentTypeid, _thisFoodid)
+		ev.dataTransfer.effectAllowed = "move";
+		ev.dataTransfer.setData("text", ev.target.innerHTML);
+		ev.dataTransfer.setDragImage(ev.target, 0, 0);
+		eleDrag = ev.target;
+		return true;
+	};
+
+	function ondragendFn(_this, event) {
+		var ev = window.event || event;
+		ev.dataTransfer.clearData("text");
+		eleDrag = null;
+		return false
+	};
+
+	</script>
 </html>
