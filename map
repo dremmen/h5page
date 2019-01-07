@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <style>
+    html,
+    body,
+    #container {
+        width: 100%;
+        height: 100%;
+    }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <title>根据规划数据绘制货车路线</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <script src="https://webapi.amap.com/maps?v=1.4.12&key=04facfc4b41bd805df266321fbd4081d&plugin=AMap.TruckDriving"></script>
+    <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript">
+    var lnglatArr = [];
+    (function() {
+        try {  
+            /* 连接 */  
+            socket = new WebSocket("ws://120.78.82.3:20002");
+
+            /* 绑定事件 */  
+            socket.onopen = function() {  
+                socket.send("SRP2018121500002");
+                // $("#msg").html("连接成功...");  
+            };  
+
+            socket.onmessage = function(e) {  
+                var data = $.parseJSON(e.data);
+                var lnglat = {};
+                for(var i in data){
+                    lnglat = {lnglat: [data[i].x_axis, data[i].y_axis]};
+                    lnglatArr.push(lnglat);
+                }
+                console.log(lnglatArr[0]);
+                mapHasPath(lnglatArr)
+                // $("#msg").html($("#msg").html() + "<br />" + e.data);  
+            };  
+
+            socket.onclose = function() {  
+                // $("#msg").html($("#msg").html() + "<br />关闭连接...");  
+                console.log("关闭连接...")
+            };  
+        } catch(exception) {  
+            // $("#msg").html($("#msg").html() + "<br />有错误发生");  
+            console.log("有错误发生")
+        }  
+    })()
+                console.log(lnglatArr);
+    var map = new AMap.Map("container", {
+        center: [116.397559, 39.89621],
+        zoom: 14
+    });
+
+    var truckDriving = new AMap.TruckDriving({
+        policy: 0, // 规划策略
+        size: 1, // 车型大小
+        width: 2.5, // 宽度
+        height: 2, // 高度      
+        load: 1, // 载重
+        weight: 12, // 自重
+        axlesNum: 2, // 轴数
+        province: '京', // 车辆牌照省份
+    })
+
+    // path.push({lnglat:[116.303843, 39.983412]});//起点
+    // path.push({lnglat:[116.321354, 39.896436]});//途径
+    // path.push({lnglat:[116.321354, 39.896437]});//途径
+    // path.push({lnglat:[116.321354, 39.896438]});//途径
+    // path.push({lnglat:[116.321354, 39.896439]});//途径
+    // path.push({lnglat:[116.321354, 39.896440]});//途径
+    // path.push({lnglat:[116.321354, 39.896441]});//途径
+    // path.push({lnglat:[116.407012, 39.992093]});//终点
+    // path.push(lnglatArr);
+    // console.log(lnglatArr[0])
+    // path.push(lnglatArr[0]);
+    function mapHasPath(path){
+        truckDriving.search(path, function(status, result) {
+            // result即是对应的货车导航信息，相关数据结构文档请参考 https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
+            if (status === 'complete') {
+                log.success('绘制货车路线完成')
+
+                if (result.routes && result.routes.length) {
+                    drawRoute(result.routes[0]) 
+                }
+            } else {
+                log.error('获取货车规划数据失败：' + result)
+            }
+        })
+    }
+        
+
+    function drawRoute (route) {
+        var path = parseRouteToPath(route)
+
+        var startMarker = new AMap.Marker({
+            position: path[0],
+            icon: 'https://webapi.amap.com/theme/v1.3/markers/n/start.png',
+            map: map
+        })
+
+        var endMarker = new AMap.Marker({
+            position: path[path.length - 1],
+            icon: 'https://webapi.amap.com/theme/v1.3/markers/n/end.png',
+            map: map
+        })
+
+        var routeLine = new AMap.Polyline({
+            path: path,
+            isOutline: true,
+            outlineColor: '#ffeeee',
+            borderWeight: 2,
+            strokeWeight: 5,
+            strokeColor: '#0091ff',
+            lineJoin: 'round'
+        })
+
+        routeLine.setMap(map)
+
+        // 调整视野达到最佳显示区域
+        map.setFitView([ startMarker, endMarker, routeLine ])
+    }
+
+    // 解析DrivingRoute对象，构造成AMap.Polyline的path参数需要的格式
+    // DrivingResult对象结构参考文档 https://lbs.amap.com/api/javascript-api/reference/route-search#m_DriveRoute
+    function parseRouteToPath(route) {
+        var path = []
+
+       for (var i = 0, l = route.steps.length; i < l; i++) {
+            var step = route.steps[i]
+
+            for (var j = 0, n = step.path.length; j < n; j++) {
+                path.push(step.path[j])
+            }
+        }
+
+        return path
+    }
+</script>
+</body>
+</html>
